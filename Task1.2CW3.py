@@ -1,0 +1,110 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+# set constants 
+mew = 4
+h = 10**-3
+T = 50
+N = int(T/h)
+
+
+def forward_euler(X, Y):
+    
+    # construct arrays to contain the values of x and y for each timestep
+    x = np.zeros(N+1) 
+    y = np.zeros(N+1)
+    x[0] = X
+    y[0] = Y
+
+
+    # complete the timesteps by creating next value in array
+    for n in range(N):
+
+        x[n+1] = x[n] + h*(x[n] - 1/3*x[n]**3 - y[n])
+        y[n+1] = y[n] + h*(mew**-1 * x[n])
+
+
+    return x, y
+
+
+
+def midpoint(X, Y):
+    # construct arrays to contain the values of x and y for each timestep
+    x = np.zeros(N+1)
+    y = np.zeros(N+1)
+    x[0] = X
+    y[0] = Y
+
+    # complete the timesteps
+    for n in range(N):
+
+        # set midpoint values
+        xstar = x[n] + (h/2)*(x[n] - 1/3*x[n]**3 - y[n])
+        ystar = y[n] + (h/2)*(mew**-1 * x[n])
+
+        # use midpoint values to create next value
+        x[n+1] = x[n] + h*(xstar - 1/3*xstar**3 - ystar)
+        y[n+1] = y[n] + h*(mew**-1 * xstar)
+
+    return x, y
+
+
+x, y = forward_euler(0.00001,0.00001)
+X, Y = midpoint(0.00001,0.00001)
+
+# plot results, using dashed line for one to distingush when lines are over the top of eachother
+plt.plot(x, y, label = "Forward Euler method")
+plt.plot(X, Y, linestyle = "dashed", label = "Midpoint method")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Time Stepping of Van der Pol equations with μ = 0.5, T = 20, h = 0.0001 ")
+plt.legend()
+plt.show()
+
+# ── Task 1.2 ──────────────────────────────────────────────────────────────────
+
+# redefine midpoint to accept h and N as arguments for convergence testing
+def midpoint_conv(X, Y, h, N):
+    # construct arrays to contain the values of x and y for each timestep
+    x = np.zeros(N+1)
+    y = np.zeros(N+1)
+    x[0] = X
+    y[0] = Y
+    # complete the timesteps
+    for n in range(N):
+        # set midpoint values
+        xstar = x[n] + (h/2)*(x[n] - 1/3*x[n]**3 - y[n])
+        ystar = y[n] + (h/2)*(mew**-1 * x[n])
+        # use midpoint values to create next value
+        x[n+1] = x[n] + h*(xstar - 1/3*xstar**3 - ystar)
+        y[n+1] = y[n] + h*(mew**-1 * xstar)
+    return x, y
+
+# reference run with small h to get x_ref at t = T
+T_conv = 10
+h_ref = 10**-6
+N_ref = int(T_conv / h_ref)
+x_ref, y_ref = midpoint_conv(0.00001, 0.00001, h_ref, N_ref)
+x_reference = x_ref[N_ref]
+
+# test h values as suggested in brief: 10^-2, 10^-1 etc.
+h_values = [10**-2, 10**-1, 2*10**-1, 5*10**-1]
+errors = []
+
+for h_test in h_values:
+    N_test = int(T_conv / h_test)
+    x, y = midpoint_conv(0.00001, 0.00001, h_test, N_test)
+    errors.append(abs(x[N_test] - x_reference))
+
+h_array = np.array(h_values)
+reference_line = (errors[0] / h_values[0]**2) * h_array**2
+
+plt.loglog(h_values, errors, 'bo-', label='Measured error')
+plt.loglog(h_array, reference_line, 'r--', label=r'$O(h^2)$ reference')
+plt.xlabel("h (step size)")
+plt.ylabel(r"$\varepsilon(h) = |x(T) - x_{ref}|$")
+plt.title(f"Convergence of midpoint method with μ = {mew}, T = {T_conv}")
+plt.legend()
+plt.grid(True, which='both', linestyle='--', alpha=0.5)
+plt.savefig("task_1_2.pdf", bbox_inches="tight")
+plt.show()
