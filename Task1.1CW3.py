@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # set constants 
-mew = 4
+mew = 0.5
 h = 10**-3
 T = 50
 N = int(T/h)
@@ -57,7 +57,7 @@ plt.plot(x, y, label = "Forward Euler method")
 plt.plot(X, Y, linestyle = "dashed", label = "Midpoint method")
 plt.xlabel("X")
 plt.ylabel("Y")
-plt.title("Time Stepping of Van der Pol equations with μ = 0.5, T = 20, h = 0.0001 ")
+plt.title("Time Stepping of Van der Pol equations with μ = 0.5, T = 50, h = 0.0001 ")
 plt.legend()
 plt.savefig("task_1_1.pdf", bbox_inches="tight")
 plt.show()
