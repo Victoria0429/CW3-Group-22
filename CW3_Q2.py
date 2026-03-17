@@ -25,7 +25,7 @@ def forwardeuler(F, G, dt, I0):
     T = [0]
 
     # timestep for an arbitrary amount of time
-    while t<35:
+    while t<100:
         dx = F(x,y,I0)
         dy = G(x,y,mu,a,b)
 
