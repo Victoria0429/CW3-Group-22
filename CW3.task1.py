@@ -114,3 +114,5 @@ plt.title("Convergence of midpoint method with μ = 0.5, T = 10")
 plt.legend()
 plt.grid(True, which='both', linestyle='--', alpha=0.5)
 plt.show()
+#_________________________________________Task_2______________________________________
+
