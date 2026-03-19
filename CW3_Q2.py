@@ -7,6 +7,8 @@ a=0.8
 b=0.7
 dt=0.01
 
+# -------Time-series plots
+
 # define differential equations
 def F(x, y, I):
     return x - 1/3 * x**3 - y + I
@@ -71,6 +73,7 @@ plt.grid()
 plt.savefig('time_series_plots_(T,Y).png')
 plt.show()
 
+#------ Phase-Plane Plots
 # new constants for next section
 T1 = 100
 N = int(T1/dt)
