@@ -73,7 +73,7 @@ plt.show()
 
 # new constants for next section
 T1 = 100
-N = int(T/h)
+N = int(T1/h)
 
 # Define time-stepping function
 def forward_euler(x0, y0, I):
