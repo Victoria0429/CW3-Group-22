@@ -71,7 +71,9 @@ plt.grid()
 plt.savefig('time_series_plots_(T,Y).png')
 plt.show()
 
-
+# new constants for next section
+T = 100
+N = int(T/h)
 
 # Define time-stepping function
 def forward_euler(x0, y0, I):
