@@ -9,6 +9,7 @@ h = 0.01
 T = 100
 N = int(T/h)
 
+# Define time-stepping function
 def forward_euler(x0, y0, I):
     
     t = np.linspace(0, T, N)
@@ -24,11 +25,12 @@ def forward_euler(x0, y0, I):
 
     return x, y, t
     
-
+# Choose 5 values of I between 0 and 2
 I_values = [0.0, 0.5, 1.0, 1.5, 2]
 
 plt.figure(figsize=(12,8))
 
+# Use for loop to make a subplot with graphs for all 5 values of I
 i = 0
 for I in I_values:
     x, y, t = forward_euler(0, 0, I)
@@ -48,9 +50,11 @@ for I in I_values:
     plt.ylabel("y")
     plt.grid()
     plt.legend()
-
+    
+# Update i for next iteration
     i += 1  
 
+# Complete plot
 plt.suptitle("Phase Plane for different values of I")
 plt.tight_layout()
 plt.savefig("Task2PhasePlanes.png")
